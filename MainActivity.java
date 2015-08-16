@@ -1,19 +1,13 @@
 package on1y.example.org.on1y;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -29,6 +23,7 @@ public class MainActivity extends AppCompatActivity
      */
     //TODO: delete all this for youtube stuff
     private CharSequence mTitle;
+    public int oldPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +53,22 @@ public class MainActivity extends AppCompatActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+
+        if (oldPos == 0) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, PlaceholderFragment.changeFragment(position + 1))
+                    .commit();
+            oldPos = position;
+        }
+        else  {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.science_fragment_layout, PlaceholderFragment.changeFragment(position + 1))
+                    .commit();
+            oldPos = position;
+        }
+
+
+
     }
 
     public void onSectionAttached(int number) {
@@ -127,32 +135,28 @@ public class MainActivity extends AppCompatActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+
+
+        public static Fragment changeFragment(int sectionNumber) {
+
+            //PlaceholderFragment fragment = new PlaceholderFragment();
+            //Bundle args = new Bundle();
+            //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            //fragment.setArguments(args);
+            //return fragment;
+            if (sectionNumber == 1) {
+                return new MainFragment();
+            }
+            else if (sectionNumber == 2) {
+                return new ScienceFragment();
+            }
+            else {
+                return new MainFragment();
+            }
         }
 
         public PlaceholderFragment() {
         }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            //make preview clickable
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.main_preview);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=F4QzhSlqmqg")));
-                }
-            });
-            return rootView;
-        }
-
 
 
     }

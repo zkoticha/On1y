@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity
     //TODO: delete all this for youtube stuff
     private CharSequence mTitle;
     public int oldPos = 0;
+    public final String MAIN_FRAG = "mainfragment";
+    public final String SCIENCE_FRAG = "sciencefragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new MainFragment(), MAIN_FRAG)
                     .commit();
         }
 
@@ -54,22 +56,20 @@ public class MainActivity extends AppCompatActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (oldPos == 0) {
+       // if (oldPos == 0) {
+
+
+        fragmentManager.beginTransaction().detach(fragmentManager.findFragmentByTag(MAIN_FRAG));
+            fragmentManager.beginTransaction().add(R.id.container, changeFragment(position + 1))
+                .commit();
+       /*     oldPos = position;
+        } else {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, PlaceholderFragment.changeFragment(position + 1))
+                    .replace(R.id.container, PlaceholderFragment.changeFragment(position + 1))
                     .commit();
-            oldPos = position;
-        }
-        else  {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.science_fragment_layout, PlaceholderFragment.changeFragment(position + 1))
-                    .commit();
-            oldPos = position;
-        }
-
-
-
+            oldPos = position; */
     }
+
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -121,46 +121,21 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    public Fragment changeFragment(int sectionNumber) {
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-
-
-        public static Fragment changeFragment(int sectionNumber) {
-
-            //PlaceholderFragment fragment = new PlaceholderFragment();
-            //Bundle args = new Bundle();
-            //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            //fragment.setArguments(args);
-            //return fragment;
-            if (sectionNumber == 1) {
-                return new MainFragment();
-            }
-            else if (sectionNumber == 2) {
-                return new ScienceFragment();
-            }
-            else {
-                return new MainFragment();
-            }
+        //PlaceholderFragment fragment = new PlaceholderFragment();
+        //Bundle args = new Bundle();
+        //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        //fragment.setArguments(args);
+        //return fragment;
+        if (sectionNumber == 1) {
+            return new MainFragment();
+        } else if (sectionNumber == 2) {
+            return new ScienceFragment();
+        } else {
+            return new MainFragment();
         }
-
-        public PlaceholderFragment() {
-        }
-
-
     }
-
 }
 
 

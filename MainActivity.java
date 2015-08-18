@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     public int oldPos = 0;
     public final String MAIN_FRAG = "mainfragment";
     public final String SCIENCE_FRAG = "sciencefragment";
+    public final Fragment fragment = new Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,7 @@ public class MainActivity extends AppCompatActivity
        // if (oldPos == 0) {
 
 
-            fragmentManager.beginTransaction().replace(R.id.container, changeFragment(position + 1))
-                .commit();
-        fragmentManager.beginTransaction().replace(R.id.container, changeFragment(position + 1))
+            fragmentManager.beginTransaction().replace(R.id.container, fragment).replace(R.id.container, changeFragment(position + 1))
                 .commit();
         //TODO: I don't know why this works and I need to fix this.
        /*     oldPos = position;
@@ -87,6 +86,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
                 break;
         }
     }
@@ -144,7 +146,9 @@ public class MainActivity extends AppCompatActivity
         else if (sectionNumber == 4) {
             return new TechFragment();
         }
-
+        else if (sectionNumber == 5) {
+            return new BookFragment();
+        }
         else {
 
             Toast.makeText(MainActivity.this, "sectionnumber should be 1-4", Toast.LENGTH_SHORT).show();

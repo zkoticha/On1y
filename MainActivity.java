@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
@@ -137,8 +141,13 @@ public class MainActivity extends AppCompatActivity
         } else if (sectionNumber == 3) {
             return new BusinessFragment();
         }
+        else if (sectionNumber == 4) {
+            return new TechFragment();
+        }
 
         else {
+
+            Toast.makeText(MainActivity.this, "sectionnumber should be 1-4", Toast.LENGTH_SHORT).show();
             return new MainFragment();
         }
     }

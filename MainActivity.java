@@ -1,8 +1,8 @@
 package on1y.example.org.on1y;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment(), MAIN_FRAG)
                     .commit();
         }
@@ -54,14 +54,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
 
        // if (oldPos == 0) {
 
 
-        fragmentManager.beginTransaction().detach(fragmentManager.findFragmentByTag(MAIN_FRAG));
-            fragmentManager.beginTransaction().add(R.id.container, changeFragment(position + 1))
+            fragmentManager.beginTransaction().replace(R.id.container, changeFragment(position + 1))
                 .commit();
+        fragmentManager.beginTransaction().replace(R.id.container, changeFragment(position + 1))
+                .commit();
+        //TODO: I don't know why this works and I need to fix this.
        /*     oldPos = position;
         } else {
             fragmentManager.beginTransaction()
@@ -132,7 +134,11 @@ public class MainActivity extends AppCompatActivity
             return new MainFragment();
         } else if (sectionNumber == 2) {
             return new ScienceFragment();
-        } else {
+        } else if (sectionNumber == 3) {
+            return new BusinessFragment();
+        }
+
+        else {
             return new MainFragment();
         }
     }
